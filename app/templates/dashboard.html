@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panneau de contrôle</title>
+</head>
+<body>
+
+    {% if current_user.is_authenticated %}
+        <p>Nom d'utilisateur : {{ username }}</p>
+        <button onclick="window.location.href='/logout';" >Deconnexion</button>
+
+        <button onclick="window.location.href='/upload_video';" >Upload video</button>
+        <button onclick="window.location.href='/create_category';" >creation des catégorie</button>
+        <button onclick="window.location.href='/create_module';" >creation module de cours</button>
+    {% else %}
+        <p>Vous n'êtes pas connécté</p>
+        <button onclick="window.location.href='/login';" >connexion</button>
+    {% endif %}
+
+</body>
+</html>

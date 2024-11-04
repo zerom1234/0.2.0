@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Affichage de l'heure</title>
+</head>
+<body>
+    {% if prix_module != 0 %}
+        <h1>Heure actuelle</h1>
+        {{ description_module }}
+        {{ prix_module }}
+        {{ id_image_module }}
+        <img src="/image/{{ id_image }}/{{ image_name }}" alt="{{ image_name }}">
+        <form action="/achat" method="POST"  enctype="multipart/form-data">
+            <input type="hidden" name="id_modules" value="{{ id_modules }}" required>
+            <input type="hidden" name="id_user" value="{{ id }}" required>
+            <input type="text" name="phone_number" required>
+            <button type="submit" >Acheté le cour</button>
+        </form>
+    {% else %}
+        <h1>Heure actuelle</h1>
+        {{ description_module }}
+        {{ prix_module }}
+        {{ id_image_module }}
+        <img src="/image/{{ id_image }}/{{ image_name }}" alt="{{ image_name }}">
+        <form action="/activation_success" method="POST"  enctype="multipart/form-data">
+            <input type="hidden" name="id_modules" value="{{ id_modules }}" required>
+            <input type="hidden" name="id_user" value="{{ id }}" required>
+            <button type="submit" >Accédé au cours gratuitement</button>
+        </form>
+    {% endif %}
+</body>
+</html>

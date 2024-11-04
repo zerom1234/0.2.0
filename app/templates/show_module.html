@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../static/css/plyr/plyr.css" />
+</head>
+<body>
+
+  <video id="player" controls></video>
+  {% if video_encoded_id %}
+  <button disabled>Cours acheté</button>
+    {% for results in result %}
+      <a href="/video_player?id={{results.encoded_id}}">{{ results.original_namefile }}</a>
+    {% endfor %}
+  {% else %}
+  <form action="/payement" method="GET" enctype="multipart/form-data">
+    <input type="hidden" name="id" value="{{ id_encoded }}">
+    <button type="submit">Obtenir le module de cours</button>
+  </form>
+    {% for results in result %}
+      <p>{{ results.original_namefile}}</p>
+    {% endfor %}
+  {% endif %}
+  <script src="../static/js/plyr/plyr.js"></script>
+  <script src="../static/js/HLS/hls.min.js"></script>
+  <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const videoElement = document.getElementById('player');
+            const source = '/video/{{ id }}/{{ namefile }}.m3u8';
+
+            if (Hls.isSupported()) {
+                const hls = new Hls();
+                hls.loadSource(source);
+                hls.attachMedia(videoElement);
+
+                hls.on(Hls.Events.MANIFEST_PARSED, function () {
+                    const availableQualities = hls.levels.map(level => level.height);
+                    availableQualities.unshift(0);
+
+                    const plyrOptions = {
+                        quality: {
+                            default: 0,
+                            options: availableQualities,
+                            forced: true,
+                            onChange: updateQuality
+                        },
+                        i18n: {
+                            qualityLabel: { 0: "Auto" }
+                        }
+                    };
+
+                    new Plyr(videoElement, plyrOptions);
+                });
+            }
+
+            function updateQuality(newQuality) {
+                if (newQuality === 0) {
+                    hls.currentLevel = -1;
+                } else {
+                    const levelIndex = hls.levels.findIndex(level => level.height === newQuality);
+                    if (levelIndex !== -1) {
+                        hls.currentLevel = levelIndex;
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

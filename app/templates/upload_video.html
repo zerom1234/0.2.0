@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Video</title>
+</head>
+<body>
+    <h1>Upload Video for HLS Conversion</h1>
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+        <input type="file" name="video_file" accept="video/*" required>
+        <input type="file" name="image_video" accept="image/*" required>
+        <select name="module" id="">
+            <option value="">Selectionner un module de cours</option>
+            {% for modules in module %}
+            <option value="{{ modules.id}}">{{ modules.name_module}}</option>
+            {% endfor %}
+        </select>
+        <input type="text" name="module" required>
+        <button type="submit">Upload and Convert</button>
+    </form>
+</body>
+</html>

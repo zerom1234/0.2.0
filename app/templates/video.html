@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecteur Vidéo avec Plyr.js et HLS.js</title>
+    
+    <!-- Plyr CSS -->
+    <link rel="stylesheet" href="../static/css/plyr/plyr.css" />
+</head>
+<body>
+
+    <!-- Conteneur de la vidéo -->
+    <video id="player" controls></video>
+
+    <!-- Plyr.js -->
+    <script src="../static/js/plyr/plyr.js"></script>
+    <!-- HLS.js -->
+    <script src="../static/js/HLS/hls.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const videoElement = document.getElementById('player');
+            const source = '/video/{{ id }}/{{ namefile }}.m3u8';
+
+            if (Hls.isSupported()) {
+                const hls = new Hls();
+                hls.loadSource(source);
+                hls.attachMedia(videoElement);
+
+                hls.on(Hls.Events.MANIFEST_PARSED, function () {
+                    const availableQualities = hls.levels.map(level => level.height);
+                    availableQualities.unshift(0);
+
+                    const plyrOptions = {
+                        quality: {
+                            default: 0,
+                            options: availableQualities,
+                            forced: true,
+                            onChange: updateQuality
+                        },
+                        i18n: {
+                            qualityLabel: { 0: "Auto" }
+                        }
+                    };
+
+                    new Plyr(videoElement, plyrOptions);
+                });
+            }
+
+            function updateQuality(newQuality) {
+                if (newQuality === 0) {
+                    hls.currentLevel = -1;
+                } else {
+                    const levelIndex = hls.levels.findIndex(level => level.height === newQuality);
+                    if (levelIndex !== -1) {
+                        hls.currentLevel = levelIndex;
+                    }
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>

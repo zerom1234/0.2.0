@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ title }}</title>
+</head>
+<body>
+    <h1>Inscription</h1>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.email.label }}<br>
+            {{ form.email(size=32) }}
+            <small class="text-danger">{{ form.email.errors }}</small>
+        </p>
+        <p>
+            {{ form.username.label }}<br>
+            {{ form.username(size=32) }}
+            <small class="text-danger">{{ form.username.errors }}</small>
+        </p>
+        <p>
+            {{ form.password.label }}<br>
+            {{ form.password(size=32) }}
+            <small class="text-danger">{{ form.password.errors }}</small>
+        </p>
+        <p>
+            {{ form.confirm_password.label }}<br>
+            {{ form.confirm_password(size=32) }}
+            <small class="text-danger">{{ form.confirm_password.errors }}</small>
+        </p>
+        <p>{{ form.submit }}</p>
+    </form>
+</body>
+</html>

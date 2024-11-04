@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajouté Cours</title>
+</head>
+<body>
+    <form action="/add_module_app" method="POST" enctype="multipart/form-data">
+        <input type="text" name="name_module" required>
+        <textarea name="description_module" id="description">Entré text ici</textarea>
+        <input type="number" name="prix" required>
+        <input type="file" name="image_module" accept="image/*" required>
+        <select name="category" id="category">
+            <option value="">Selectionner un module de cours</option>
+            {% for category in categorie %}
+                <option value="{{ category.id}}">{{ category.category_name}}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Create Module de cours</button>
+    </form>
+</body>
+</html>

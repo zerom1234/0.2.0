@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exemple avec SweetAlert</title>
+
+    <script src="../static/css/sweetalert2.css"></script>
+    <link href="../static/js/sweetalert2.js" rel="stylesheet">
+</head>
+<body>
+    <script>
+        Swal.fire({
+        title: "Activation",
+        text: "Activation réussi",
+        icon: "success",
+        timer: 10000, 
+        showConfirmButton: false
+        }).then(function() {
+        window.location.href = "/register";
+        });
+    </script>
+</body>
+</html>
